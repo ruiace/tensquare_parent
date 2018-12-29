@@ -25,6 +25,10 @@ public class Result {
         return new Result(true,StatusCode.OK,message);
     }
 
+    public  static Result ok(String message, Object data){
+        return new Result(true,StatusCode.OK,message,data);
+    }
+
     public  static Result error(){
         return new Result(false,StatusCode.ERROR,"失败");
     }
