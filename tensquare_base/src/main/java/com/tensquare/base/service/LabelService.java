@@ -2,7 +2,6 @@ package com.tensquare.base.service;
 
 import com.tensquare.base.dao.LabelDao;
 import com.tensquare.base.pojo.Label;
-import entity.Result;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,7 +16,6 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by rp on 2018/12/29.
@@ -55,6 +53,7 @@ public class LabelService {
      */
     public void add(Label label){
         label.setId(String.valueOf(idWorker.nextId()));
+        //label.setFans(0L);
         labelDao.save(label);
     }
 
@@ -93,7 +92,7 @@ public class LabelService {
             public Predicate toPredicate(Root<Label> root, CriteriaQuery<?> criteriaQuery,
                                          CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicateList = new ArrayList<>();
-                String lablename = searchMap.getLablename();
+                String lablename = searchMap.getLabelname();
                 String state = searchMap.getState();
                 String recommend = searchMap.getRecommend();
                 if(StringUtils.isNotEmpty(lablename)){
@@ -125,4 +124,23 @@ public class LabelService {
         return labelDao.findAll(specification,pageRequest);
     }
 
+
+    /**
+     * 推荐标签列表
+     * @return
+     */
+    public List<Label> toplist() {
+        List<Label> list = labelDao.findAllByRecommendEquals("1");
+        return list;
+    }
+
+
+    /**
+     * 有效标签列表
+     * @return
+     */
+    public  List<Label> list() {
+        List<Label> list = labelDao.findAllByStateEquals("1");
+        return list;
+    }
 }

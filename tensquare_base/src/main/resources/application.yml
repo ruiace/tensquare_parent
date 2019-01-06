@@ -1,14 +1,25 @@
+devtools:
+  livereload:
+    enabled: true #是否支持livereload
+#    port: 35729
+  restart:
+    enabled: true #是否支持热部署
+
+
 server:
-  port: 8081
+  port: 5001
 spring:
   application:
     name: tensquare-base
   datasource:
     username: root
     password: 123456
-#    url: jdbc:mysql://192.168.25.100:3306/tensquare_base?characterEncoding=utf-8
-    url: jdbc:mysql://localhost:3306/tensquare_base?characterEncoding=utf-8
+    url: jdbc:mysql://192.168.25.100:3306/tensquare_base?characterEncoding=utf-8
+    driver-class-name: com.mysql.jdbc.Driver
   jpa:
     show-sql: true
     database: mysql
+
+
+
 

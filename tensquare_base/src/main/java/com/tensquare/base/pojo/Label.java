@@ -3,6 +3,7 @@ package com.tensquare.base.pojo;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * 〈一句话功能简述〉<br>
@@ -13,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "tb_label")
-public class Label {
+public class Label implements Serializable{
 
     /**
      * id 主键
@@ -24,7 +25,7 @@ public class Label {
     /**
      * 标签名称
      */
-    private String lablename;
+    private String labelname;
 
     /**
      * 状态 文本 0：无效 1：有效
@@ -54,12 +55,12 @@ public class Label {
         this.id = id;
     }
 
-    public String getLablename() {
-        return lablename;
+    public String getLabelname() {
+        return labelname;
     }
 
-    public void setLablename(String lablename) {
-        this.lablename = lablename;
+    public void setLabelname(String labelname) {
+        this.labelname = labelname;
     }
 
     public String getState() {

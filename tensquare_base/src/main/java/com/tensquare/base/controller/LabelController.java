@@ -37,21 +37,21 @@ public class LabelController {
         return Result.ok("查询成功",labelService.findAll());
     }
 
-//    /**
-//     * /label/toplist 推荐标签列表
-//     */
-//    @GetMapping("/toplist")
-//    public Result toplist(){
-//        return labelService.toplist();
-//    }
-//
-//    /**
-//     * /label/list 有效标签列表
-//     */
-//    @GetMapping("/list")
-//    public Result list(){
-//        return labelService.list();
-//    }
+    /**
+     * /label/toplist 推荐标签列表
+     */
+    @GetMapping("/toplist")
+    public Result toplist(){
+        return Result.ok("查询成功",labelService.toplist());
+    }
+
+    /**
+     * /label/list 有效标签列表
+     */
+    @GetMapping("/list")
+    public Result list(){
+        return Result.ok("查询成功", labelService.list());
+    }
 
 
     /**
