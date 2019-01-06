@@ -1,13 +1,23 @@
-server: 
-  port: 9001
+devtools:
+  livereload:
+    enabled: true #是否支持livereload
+#    port: 35729
+  restart:
+    enabled: true #是否支持热部署
+
+server:
+  port: 5004
 spring: 
   application:  
     name: tensquare-gathering #指定服务名
   datasource:  
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/tensquare_gathering?useUnicode=true&amp;characterEncoding=UTF8
+    url: jdbc:mysql://192.168.25.100:3306/tensquare_gathering?characterEncoding=UTF8
     username: root
     password: 123456
   jpa: 
     database: MySQL
     show-sql: true
+  redis:
+    host: 192.168.25.100
+    port: 6379

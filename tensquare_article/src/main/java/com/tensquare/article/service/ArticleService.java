@@ -1,28 +1,24 @@
 package com.tensquare.article.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
-
+import com.tensquare.article.dao.ArticleDao;
+import com.tensquare.article.pojo.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 import util.IdWorker;
 
-import com.tensquare.article.dao.ArticleDao;
-import com.tensquare.article.pojo.Article;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 服务层
@@ -38,6 +34,10 @@ public class ArticleService {
 	
 	@Autowired
 	private IdWorker idWorker;
+
+
+	@Autowired
+	private RedisTemplate redisTemplate;
 
 	/**
 	 * 查询全部列表
@@ -78,7 +78,16 @@ public class ArticleService {
 	 * @return
 	 */
 	public Article findById(String id) {
-		return articleDao.findById(id).get();
+		//从缓存中提取
+		Article article= (Article)redisTemplate.opsForValue().get("article_"+id);
+		// 如果缓存没有则到数据库查询并放入缓存
+		if(article==null) {
+			article = articleDao.findById(id).get();
+			//redisTemplate.opsForValue().set("article_" + id, article);
+			redisTemplate.opsForValue().set("article_" + id, article,1, TimeUnit.DAYS);
+
+		}
+		return article;
 	}
 
 	/**
@@ -95,6 +104,7 @@ public class ArticleService {
 	 * @param article
 	 */
 	public void update(Article article) {
+		redisTemplate.delete( "article_" + article.getId() );//删除缓存
 		articleDao.save(article);
 	}
 
@@ -103,6 +113,7 @@ public class ArticleService {
 	 * @param id
 	 */
 	public void deleteById(String id) {
+		redisTemplate.delete( "article_" + id );//删除缓存
 		articleDao.deleteById(id);
 	}
 
@@ -172,6 +183,26 @@ public class ArticleService {
 			}
 		};
 
+	}
+
+
+	/**
+	 * 文章审核
+	 * @param id
+	 */
+	@Transactional
+	public void examine(String id){
+		articleDao.examine(id);
+	}
+
+	/**
+	 * 点赞
+	 * @param id 文章ID
+	 * @return
+	 */
+	@Transactional
+	public int updateThumbup(String id){
+		return articleDao.updateThumbup(id);
 	}
 
 }

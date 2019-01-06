@@ -1,11 +1,18 @@
-server: 
-  port: 9001
+devtools:
+  livereload:
+    enabled: true #是否支持livereload
+#    port: 35729
+  restart:
+    enabled: true #是否支持热部署
+
+server:
+  port: 5003
 spring: 
   application:  
     name: tensquare-qa #指定服务名
   datasource:  
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/tensquare_qa?useUnicode=true&amp;characterEncoding=UTF8
+    url: jdbc:mysql://192.168.25.100:3306/tensquare_qa?characterEncoding=UTF8
     username: root
     password: 123456
   jpa: 

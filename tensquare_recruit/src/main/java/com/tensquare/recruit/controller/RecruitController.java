@@ -1,17 +1,15 @@
 package com.tensquare.recruit.controller;
-import java.util.List;
-import java.util.Map;
-
+import com.tensquare.recruit.pojo.Recruit;
+import com.tensquare.recruit.service.RecruitService;
+import entity.PageResult;
+import entity.Result;
+import entity.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import com.tensquare.recruit.pojo.Recruit;
-import com.tensquare.recruit.service.RecruitService;
-
-import entity.PageResult;
-import entity.Result;
-import entity.StatusCode;
+import java.util.List;
+import java.util.Map;
 /**
  * 控制器层
  * @author Administrator
@@ -104,6 +102,12 @@ public class RecruitController {
 	public Result recommend(){
 		List<Recruit> top4ByStateOrderByCreatetimeDesc = recruitService.findTop4ByStateOrderByCreatetimeDesc("2");
 		return Result.ok("查询成功",top4ByStateOrderByCreatetimeDesc);
+	}
+
+	@GetMapping("/search/newlist")
+	public Result newList(){
+		List<Recruit> newList = recruitService.findTop4ByStateOrderByCreatetimeDesc("2");
+		return Result.ok("查询成功",newList);
 	}
 
 }

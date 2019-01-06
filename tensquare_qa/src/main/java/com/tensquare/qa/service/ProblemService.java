@@ -1,28 +1,21 @@
 package com.tensquare.qa.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Expression;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.persistence.criteria.Selection;
-
+import com.tensquare.qa.dao.ProblemDao;
+import com.tensquare.qa.pojo.Problem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import util.IdWorker;
 
-import com.tensquare.qa.dao.ProblemDao;
-import com.tensquare.qa.pojo.Problem;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 服务层
@@ -152,6 +145,43 @@ public class ProblemService {
 			}
 		};
 
+	}
+
+
+	/**
+	 * 根据标签ID查询问题列表
+	 * @param lableId 标签ID
+	 * @param page 页码
+	 * @param size 页大小
+	 * @return
+	 */
+	public Page<Problem> findNewListByLabelId(String lableId,int page,int size) {
+		PageRequest pageRequest = PageRequest.of(page-1, size);
+		return problemDao.findNewListByLabelId(lableId,pageRequest);
+	}
+
+	/**
+	 * 根据标签ID查询热门问题列表
+	 * @param lableId 标签ID
+	 * @param page 页码
+	 * @param size 页大小
+	 * @return
+	 */
+	public Page<Problem> findHotListByLabelId(String lableId,int page, int size) {
+		PageRequest pageRequest = PageRequest.of(page-1, size);
+		return problemDao.findHotListByLabelId(lableId,pageRequest);
+	}
+
+	/**
+	 * 根据标签ID查询等待回答列表
+	 * @param lableId 标签ID
+	 * @param page 页码
+	 * @param size 页大小
+	 * @return
+	 */
+	public Page<Problem> findWaitListByLabelId(String lableId,int page, int size) {
+		PageRequest pageRequest = PageRequest.of(page-1, size);
+		return problemDao.findWaitListByLabelId(lableId,pageRequest);
 	}
 
 }
