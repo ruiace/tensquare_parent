@@ -1,0 +1,15 @@
+devtools:
+  livereload:
+    enabled: true #是否支持livereload
+#    port: 35729
+  restart:
+    enabled: true #是否支持热部署
+
+server:
+  port: 5007
+spring: 
+  application:  
+    name: tensquare-search  #指定服务名
+  data:
+    elasticsearch:
+      cluster-nodes: 192.168.25.100:9300
