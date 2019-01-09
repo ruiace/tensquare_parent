@@ -1,0 +1,8 @@
+spring:
+  rabbitmq:
+    host: 192.168.25.100
+    port: 5672
+  application:
+    name: rabbitmq-test
+
+
